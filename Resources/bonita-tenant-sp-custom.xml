@@ -1,0 +1,23 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <!-- add event handler bean definition -->
+    <bean id="myEventHandlerExample" class="org.bonita.eventHandler.EventHandlerExample">
+        <!-- add logging service -->
+        <constructor-arg name="technicalLoggerService" ref="tenantTechnicalLoggerService" />
+        <constructor-arg name="loggerSeverity" value="WARNING"/>
+        <constructor-arg name="tenantId" value="${tenantId}" />
+    </bean>
+
+    <bean id="eventHandlers" class="org.springframework.beans.factory.config.MapFactoryBean">
+        <property name="targetMapClass">
+            <value>java.util.HashMap</value>
+        </property>
+        <property name="sourceMap">
+            <map>
+                <entry key="PROCESSINSTANCE_STATE_UPDATED" value-ref="myEventHandlerExample"/>
+            </map>
+        </property>
+    </bean>
+
+</beans>
